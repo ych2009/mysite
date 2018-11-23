@@ -1,0 +1,2 @@
+--- no python application found, check your startup logs for errors ---
+[pid: 15893|app: -1|req: -1/16] 218.65.49.19 () {38 vars in 582 bytes} [Thu Nov 22 15:34:02 2018] GET / => generated 21 bytes in 0 msecs (HTTP/1.1 500) 2 headers in 83 bytes (0 switches on core 0)
