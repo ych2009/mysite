@@ -1,28 +1,13 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404, render_to_response
 from .models import Question,Choice
 from django.template import loader
 from django.urls import reverse
-
+from django.template import RequestContext
 # Create your views here.
 
 from django.http import HttpResponse,HttpResponseRedirect
 from django.views import generic
-
-# def index(request):
-#     latest_question_list = Question.objects.order_by('-pub_date')[:5]
-#     template = loader.get_template('polls/index.html')
-#     context = {
-#     'latest_question_list': latest_question_list,
-#     }
-#     return HttpResponse(template.render(context, request))
-#
-# def detail(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, 'polls/detail.html', {'question': question})
-#
-# def result(request, question_id):
-#     question = get_object_or_404(Question, pk=question_id)
-#     return render(request, 'polls/results.html', {'question': question})
+from django.views.decorators.csrf import csrf_protect,csrf_exempt,ensure_csrf_cookie
 
 class IndexView(generic.ListView):
     template_name = 'polls/index.html'
@@ -40,7 +25,6 @@ class ResultsView(generic.DetailView):
     model = Question
     template_name ='polls/results.html'
 
-
 def vote(request, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
@@ -51,6 +35,13 @@ def vote(request, question_id):
         'question': question,
         'error_message': "You didn't select a choice.",
         })
+       #  return render_to_response('polls/detail.html',
+       #                            {
+       #  'question': question,
+       #  'error_message': "You didn't select a choice.",
+       #  },
+       # context_instance=RequestContext(request)
+       #                            )
     else:
         selected_choice.votes += 1
         selected_choice.save()
